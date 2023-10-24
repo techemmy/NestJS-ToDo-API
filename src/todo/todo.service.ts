@@ -7,8 +7,6 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 
 @Injectable()
 export class TodoService {
-  private todos: CreateTodoDto[];
-
   constructor(
     @InjectRepository(Todo) private todoRepository: Repository<Todo>,
   ) {}
