@@ -1,5 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum TodoState {
+  PENDING = 'pending',
+  COMPLETED = 'completed',
+  ARCHIVED = 'archived',
+}
+
 @Entity()
 export class Todo {
   @PrimaryGeneratedColumn()
@@ -8,6 +14,10 @@ export class Todo {
   @Column()
   task: string;
 
-  @Column()
-  state: 'pending' | 'completed';
+  @Column({
+    type: 'enum',
+    enum: TodoState,
+    default: TodoState.PENDING,
+  })
+  state: TodoState;
 }

@@ -1,5 +1,10 @@
-export interface CreateTodoDto {
-  id: number;
+import { IsEnum, IsString } from 'class-validator';
+import { TodoState } from '../entities/todo.entity';
+
+export class CreateTodoDto {
+  @IsString()
   task: string;
-  state: 'completed' | 'pending';
+
+  @IsEnum(TodoState)
+  state: TodoState;
 }

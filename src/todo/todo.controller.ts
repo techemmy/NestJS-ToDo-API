@@ -10,6 +10,8 @@ import {
   HttpCode,
   HttpStatus,
   NotFoundException,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -17,6 +19,7 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
 
 @Controller('todos')
+@UsePipes(ValidationPipe)
 export class TodoController {
   constructor(private todoService: TodoService) {}
 
