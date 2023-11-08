@@ -3,6 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entities';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,9 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException("You don't have a registered account!");
     }
-    if (!user || user.password !== pass) {
+
+    const isCorrectPassword = await bcrypt.compare(pass, user.password);
+    if (!user || !isCorrectPassword) {
       throw new UnauthorizedException('Invalid username or password');
     }
     const payload = {
