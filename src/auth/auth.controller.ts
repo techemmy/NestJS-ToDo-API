@@ -9,6 +9,8 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { UserRole, UserRoles } from 'src/role.decorator';
+import { RoleGuard } from 'src/role.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,13 +21,16 @@ export class AuthController {
   }
 
   @Post('signup')
+  @UseGuards(RoleGuard)
+  @UseGuards(AuthGuard)
+  @UserRoles(UserRole.Admin)
   async signUp(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.signUp(createUserDto);
     return user;
   }
 
-  @UseGuards(AuthGuard)
   @Get('profile')
+  @UseGuards(AuthGuard)
   getProfile(@Request() req) {
     return req.user;
   }

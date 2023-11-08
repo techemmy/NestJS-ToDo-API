@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entities';
 import { Repository } from 'typeorm';
@@ -15,14 +15,6 @@ export class UsersService {
   }
 
   async create(user: CreateUserDto): Promise<User | undefined> {
-    const exists = await this.userRepository.findOne({
-      where: { username: user.username },
-    });
-    if (exists) {
-      throw new BadRequestException(
-        'Username has been used. Choose another one',
-      );
-    }
     const newUser = await this.userRepository.create(user);
     const savedUser = await this.userRepository.save(newUser);
     return savedUser;

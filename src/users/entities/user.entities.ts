@@ -1,3 +1,4 @@
+import { UserRole } from 'src/role.decorator';
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity()
@@ -11,4 +12,7 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.User })
+  role: string;
 }

@@ -19,11 +19,21 @@ export class AuthService {
     if (!user || user.password !== pass) {
       throw new UnauthorizedException('Invalid username or password');
     }
-    const payload = { sub: user.userId, username: user.username };
+    const payload = {
+      sub: user.userId,
+      username: user.username,
+      role: user.role,
+    };
     return { access_token: await this.jwtService.signAsync(payload) };
   }
 
   async signUp(user: CreateUserDto): Promise<User | undefined> {
+    const existingUser = await this.usersService.findOne(user.username);
+    if (existingUser) {
+      throw new UnauthorizedException(
+        'Username has been used. Choose another one',
+      );
+    }
     return this.usersService.create(user);
   }
 }
