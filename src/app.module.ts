@@ -23,4 +23,5 @@ import { UsersModule } from './users/users.module';
     TodoModule,
   ],
 })
+// TODO: Add swagger to the controllers for documentation
 export class AppModule {}
